@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Showcase</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #3b82f6;
+            --text: #1f2937;
+            --text-light: #6b7280;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --tag-bg: #eef2ff;
+            --tag-text: #3730a3;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --header-bg: rgba(255, 255, 255, 0.95);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+        }
+        
+        .dark-theme {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #60a5fa;
+            --text: #f3f4f6;
+            --text-light: #d1d5db;
+            --bg: #111827;
+            --card-bg: #1f2937;
+            --tag-bg: #374151;
+            --tag-text: #e5e7eb;
+            --shadow: rgba(0, 0, 0, 0.25);
+            --header-bg: rgba(31, 41, 55, 0.95);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+        
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 2rem;
+            transition: background-color 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 25% 25%, rgba(37, 99, 235, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%);
+            animation: subtleFloat 15s ease-in-out infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
+        @keyframes subtleFloat {
+            0%, 100% {
+                opacity: 1;
+                transform: translateY(0px);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translateY(-10px);
+            }
+        }
+        
+        header {
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-md);
+            box-shadow: 0 4px 12px var(--shadow);
+            position: static;
+            width: 100%;
+        }
+        
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h1 {
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: shimmer 3s ease-in-out infinite alternate;
+            position: relative;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        
+        @keyframes shimmer {
+            0% {
+                background-position: -200% center;
+            }
+            100% {
+                background-position: 200% center;
+            }
+        }
+        
+        h1::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            border-radius: 2px;
+            transform: scaleX(0);
+            transform-origin: center;
+            animation: underline 3s ease-in-out infinite;
+        }
+        
+        @keyframes underline {
+            0%, 100% {
+                transform: scaleX(0.2);
+            }
+            50% {
+                transform: scaleX(1);
+            }
+        }
+        
+        .subheading {
+            color: var(--text-light);
+            font-size: 1.2rem;
+            margin-top: 0.5rem;
+            font-weight: 400;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 2s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Toggle button in top-right corner */
+        .toggle-container {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 200;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 26px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Filter Buttons */
+        .filter-container {
+            max-width: 1200px;
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-md);
+            text-align: center;
+        }
+        
+        .filter-buttons {
+            display: inline-flex;
+            background: var(--card-bg);
+            border-radius: 50px;
+            padding: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .filter-btn {
+            background: transparent;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            white-space: nowrap;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .filter-btn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+        
+        .filter-btn:hover {
+            color: var(--primary);
+            background: var(--tag-bg);
+            transform: translateY(-2px);
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: var(--spacing-lg) auto;
+            padding: 0 var(--spacing-md);
+        }
+        
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-lg);
+        }
+        
+        .project-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 16px var(--shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+        
+        /* Remove transform and border effects on hover */
+        .project-card:hover {
+            box-shadow: 0 12px 24px var(--shadow);
+        }
+        
+        .project-card:hover .project-image {
+            transform: none;
+        }
+        
+        .project-card.hidden {
+            opacity: 0;
+            transform: scale(0.8);
+            pointer-events: none;
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, var(--primary), var(--secondary)) 1;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-content {
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .project-description {
+            color: var(--text-light);
+            margin-bottom: 1.2rem;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tag {
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.15rem 0.5rem;
+            border-radius: 14px;
+            font-size: 0.68rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .tag::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .project-card:hover .tag::before {
+            left: 100%;
+        }
+        
+        .tag:hover {
+            transform: scale(1.1);
+            background: var(--primary);
+            color: white;
+        }
+        
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .project-link {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .github-link {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+        }
+        
+        .demo-link {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+        }
+        
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow);
+        }
+        
+        .github-link:hover {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+        }
+        
+        .demo-link:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-md);
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: var(--spacing-sm);
+            }
+            
+            .project-content {
+                padding: var(--spacing-sm);
+            }
+            
+            .project-title {
+                font-size: 1.2rem;
+            }
+            
+            .project-description {
+                font-size: 0.9rem;
+            }
+            
+            .project-link {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .filter-buttons {
+                padding: 6px;
+                gap: 2px;
+            }
+            
+            .filter-btn {
+                padding: 10px 16px;
+                font-size: 0.8rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subheading {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (min-width: 601px) {
+            .view-more-overlay {
+                display: none !important;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header {
+                position: static;
+                width: 100vw;
+                padding: var(--spacing-sm);
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .subheading {
+                font-size: 1rem;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            /* Horizontal scrolling filter for mobile */
+            .filter-container {
+                padding: 0 var(--spacing-sm);
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none; /* Firefox */
+            }
+            
+            .filter-container::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Edge */
+            }
+            
+            .filter-buttons {
+                display: flex;
+                flex-wrap: nowrap;
+                justify-content: flex-start;
+                border-radius: 25px;
+                padding: 8px;
+                gap: 6px;
+                width: max-content;
+                min-width: 100%;
+                overflow-x: auto;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            
+            .container {
+                padding: 0 var(--spacing-sm);
+            }
+            
+            .project-card {
+                position: relative;
+                overflow: hidden;
+                max-height: 280px;
+                transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            
+            .project-card .view-more-overlay {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 80px;
+                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(255, 255, 255, 0) 100%);
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+                padding-bottom: 15px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                z-index: 10;
+            }
+            
+            .dark-theme .project-card .view-more-overlay {
+                background: linear-gradient(to top, var(--card-bg) 0%, var(--card-bg) 40%, rgba(31, 41, 55, 0) 100%);
+            }
+            
+            .view-more-btn {
+                background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+                color: white;
+                border: none;
+                padding: 8px 16px;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                cursor: pointer;
+                box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                backdrop-filter: blur(10px);
+            }
+            
+            .view-more-btn:hover {
+                transform: translateY(-2px) scale(1.05);
+                box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+            }
+            
+            .view-more-btn:active {
+                transform: translateY(0) scale(0.98);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: var(--spacing-sm);
+            }
+            
+            .project-image {
+                height: 150px;
+            }
+            
+            .project-title {
+                font-size: 1.1rem;
+            }
+            
+            .project-description {
+                font-size: 0.9rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+        
+        /* Full-screen modal styles for small devices */
+        .project-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: var(--bg);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .modal-header {
+            position: sticky;
+            top: 0;
+            background: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: var(--spacing-sm) var(--spacing-md);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            box-shadow: 0 2px 8px var(--shadow);
+            z-index: 1001;
+            min-height: 60px;
+        }
+        
+        .modal-back-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .modal-back-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.1);
+        }
+        
+        .modal-title {
+            color: var(--text);
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .modal-content {
+            flex: 1;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            min-height: calc(100vh - 60px);
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+        }
+        
+        .modal-project-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 8px 16px var(--shadow);
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            min-height: auto;
+        }
+        
+        .modal-project-card .project-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        
+        .modal-project-card .project-content {
+            padding: var(--spacing-md);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .modal-project-card .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 0;
+            line-height: 1.3;
+            word-wrap: break-word;
+        }
+        
+        .modal-project-card .project-description {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+            color: var(--text-light);
+        }
+        
+        .modal-project-card .project-tags {
+            margin-bottom: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .modal-project-card .tag {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+        }
+        
+        .modal-project-card .project-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+        
+        .modal-project-card .project-link {
+            padding: 0.7rem 1.2rem;
+            font-size: 0.9rem;
+            text-align: center;
+            justify-content: center;
+        }
+
+        /* Footer styles */
+        .footer {
+            background: var(--header-bg);
+            color: var(--text-light);
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            padding: 0.9rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 1rem;
+            border-radius: 0;
+            box-shadow: 0 6px 16px var(--shadow);
+            font-size: 0.95rem;
+        }
+
+        .footer .copyright {
+            color: var(--text-light);
+            font-weight: 600;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .footer {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="toggle-container">
+            <label class="toggle-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+            </label>
+        </div>
+        <div class="header-content">
+            <h1>Project Showcase</h1>
+            <p class="subheading">A curated collection of my favorite projects built with modern web technologies.</p>
+        </div>
+    </header>
+
+    <!-- Filter Buttons -->
+    <div class="filter-container">
+        <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">ALL</button>
+            <button class="filter-btn" data-filter="fullstack">FULL STACK APPS</button>
+            <button class="filter-btn" data-filter="python">PYTHON & AI</button>
+            <button class="filter-btn" data-filter="cybersecurity">CYBERSECURITY</button>
+            <button class="filter-btn" data-filter="others">OTHERS</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="projects-grid">
+            <!-- Full Stack Project 1 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="./images/carvix.png" alt="E-Commerce Website" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Carvix - AI-Powered Car Marketplace</h2>
+                    <p class="project-description">Carvix is a modern, full-stack SaaS platform revolutionizing car buying with AI-powered image search, automated data extraction, and seamless test drive booking.</p>
+                    <div class="project-tags">
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">Tailwindcss</span>
+                        <span class="tag">Supabase</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Prisma</span>
+                        <span class="tag">PostgreSQL</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Carvix_AI_Powered_Car_Marketplace.git" class="project-link github-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="" class="project-link demo-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Full Stack Project 2 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/LXJJM7W3/IICUDSC.png" alt="Task Management App" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">IIC - UDSC Website</h2>
+                    <p class="project-description">The IIC website serves as a comprehensive platform to showcase the institute's programs, faculty, events, and other important information. It is designed to provide a seamless and engaging user experience, with a focus on accessibility and responsiveness. Tech Stack - TypeScript, Nextjs and Tailwind CSS.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Tailwindcss</span>
+                        <span class="tag">Material-UI</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">React-hooks</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://iic-udsc.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- full stack project 3 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/Tz3wqdY/Project-uber.png" alt="Task Management App" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Full Stack Uber Clone</h2>
+                    <p class="project-description">This full stack (MERN) application emulates the core features of the popular ride-hailing service - Uber.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">TailwindCSS</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Google Map API</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Full_Stack_Uber_Clone.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://uber-clone-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Cybersecurity Project 1 -->
+            <!-- <div class="project-card" data-category="cybersecurity">
+                <img src="https://i.ibb.co/6g7k5YV/cyber-security.jpg" alt="Network Security Scanner" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Network Security Scanner</h2>
+                    <p class="project-description">A comprehensive network security scanner that identifies vulnerabilities, open ports, and potential security threats in network infrastructure. Built with Python and Nmap integration.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Nmap</span>
+                        <span class="tag">Network Security</span>
+                        <span class="tag">Vulnerability Assessment</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Network-Security-Scanner.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Network-Security-Scanner.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Documentation</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div> -->
+
+            <!-- Cybersecurity Project 2 -->
+            <!-- <div class="project-card" data-category="cybersecurity">
+                <img src="https://i.ibb.co/8Dz8mWf/password-manager.jpg" alt="Password Manager" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Secure Password Manager</h2>
+                    <p class="project-description">A secure password manager with AES-256 encryption, password strength analysis, and breach detection capabilities. Stores credentials locally with zero-knowledge architecture.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Cryptography</span>
+                        <span class="tag">AES-256</span>
+                        <span class="tag">Security</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Secure-Password-Manager.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Secure-Password-Manager.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Documentation</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div> -->
+
+            <!-- Cybersecurity Project 3 -->
+            <div class="project-card" data-category="cybersecurity">
+                <img src="./images/bypass.png" alt="Malware Analysis Tool" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">AI Evasion Tool - Professional Red Teaming Framework</h2>
+                    <p class="project-description">An advanced tool for testing AI-based security systems with sophisticated evasion techniques. This professional red teaming framework simulates various attack vectors while employing multiple evasion strategies to bypass AI-powered detection systems.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python 3.8+</span>
+                        <span class="tag">Scikit-learn</span>
+                        <span class="tag">PyTorch</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Pandas</span>
+                        <span class="tag">Matplotlib</span>
+                        <span class="tag">Seaborn</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/BypassX-AI-Evasion-Tool-Python.git" class="project-link github-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/BypassX-AI-Evasion-Tool-Python.git" class="project-link demo-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Inserted projects (from prompt) -->
+            <!-- Full Stack Project 1 -->
+            <!-- Full Stack Project 1 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/nqR0cxbJ/Carbonwise.png" alt="E-Commerce Website" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Carbonwise: Track Carbon</h2>
+                    <p class="project-description">CarbonWise is a comprehensive web application designed to help individuals track, analyze, and reduce their carbon footprint through intelligent activity logging, goal setting, and community engagement.</p>
+                    <div class="project-tags">
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">Tailwindcss</span>
+                        <span class="tag">Supabase</span>
+                        <span class="tag">React</span>
+                        <span class="tag">React-hooks</span>
+                        <span class="tag">Recharts</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/CarbonWise-Carbon-Tracker.git" class="project-link github-link" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://carbonwise-lakshay.vercel.app/" class="project-link demo-link" target="_blank" rel="noopener"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Full Stack Project 2 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/LXJJM7W3/IICUDSC.png" alt="Task Management App" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">IIC - UDSC Website</h2>
+                    <p class="project-description">The IIC website serves as a comprehensive platform to showcase the institute's programs, faculty, events, and other important information. It is designed to provide a seamless and engaging user experience, with a focus on accessibility and responsiveness. Tech Stack - TypeScript, Nextjs and Tailwind CSS.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Tailwindcss</span>
+                        <span class="tag">Material-UI</span>
+                        <span class="tag">Next.js</span>
+                        <span class="tag">React-hooks</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://iic-udsc.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+
+            <!-- full stack project 3 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/Tz3wqdY/Project-uber.png" alt="Task Management App" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Full Stack Uber Clone</h2>
+                    <p class="project-description">This full stack (MERN) application emulates the core features of the popular ride-hailing service - Uber.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">TailwindCSS</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Google Map API</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Express.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Full_Stack_Uber_Clone.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://uber-clone-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- full stack project 4-->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/dbhFDTb/blogger.png" alt="Weather Forecast App" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Blogger - Blog Application</h2>
+                    <p class="project-description">Blogger is a comprehensive full stack web application designed for seamless blog management and user interaction. Built using a powerful technology stack that includes HTML, CSS, 
+                        JavaScript, Bootstrap 2, Flask, and Python, along with MySQL/SQLite for database management, this application provides an intuitive and engaging blogging platform.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Flask</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">JavaScript</span>
+                        
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Full_Stack_Blog_Application_Flask.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Full_Stack_Blog_Application_Flask.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- full stack project 5 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/fYdwsWR/Project-13.png" alt="AI Chatbot" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">CipherGPT - AI Chatbot</h2>
+                    <p class="project-description">CipherGPT is an advanced SAAS chatbot AI meticulously crafted using the MERN (MongoDB, Express.js, React.js, Node.js) stack coupled with TypeScript and the OpenAI API.</p>
+                    <div class="project-tags">
+                        <span class="tag">TailwindCSS</span>
+                        <span class="tag">React</span>
+                        <span class="tag">MongoDB</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">OpenAI API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/FullStack_SaaS_ChatBot_CipherGPT.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="ciphergpt-chatbot.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- full stack project 6 -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/Ctkzqy2/Project-1.png" alt="Data Analytics Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Job Portal Website - MERN</h2>
+                    <p class="project-description">MERN Stack job portal where users can filter job listings by title, location, and posting time.</p>
+                    <div class="project-tags">
+                        <span class="tag">TailwindCSS</span>
+                        <span class="tag">React</span>
+                        
+                        <span class="tag">MOngoDB</span>
+                        <span class="tag">React</span>
+                        <span class="tag">Express.js</span>
+                        <span class="tag">Authentication</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/MERN_Job_Portal_Website.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://mern-job-portal-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Hidden Projects -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/bB3MFn0/Project-2.png" alt="Social Media Platform" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">MedTech - HMS</h2>
+                    <p class="project-description">Medtech is a Hospital Management System (HMS), a solution designed to modernize hospital operations by digitizing and automating various administrative tasks.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/MedTech-Hospital-Management-System.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/MedTech-Hospital-Management-System.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+
+            <!-- Hidden Projects -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/4Mng3tk/Project-16.png" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">SMS - Student Management</h2>
+                    <p class="project-description">SMS acts as the bottom line database to store and maintain all the daily school operations.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Student_Management_System.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Student_Management_System.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Hidden Projects -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/hRMrhrg/Project-14.png" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Project Management System</h2>
+                    <p class="project-description">It is a platform designed to help individuals and teams effectively plan, track, and manage projects.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Project-Management-System.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Project-Management-System.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Hidden Projects -->
+            <div class="project-card " data-category="fullstack">
+                <img src="https://i.ibb.co/GM63w8M/Project-3.png" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Movie Booking System</h2>
+                    <p class="project-description">INOX Theatre Movie Booking is a online movie booking platform, designed to emulate the renowned INOX theater experience in Rajouri Garden. Built using HTML, CSS3, JavaScript, Bootstrap, jQuery, PHP, and MySQL, this repository houses the complete source code and assets required to deploy and operate a seamless movie booking website.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/INOX-Theatre-Movie-Booking-System.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/INOX-Theatre-Movie-Booking-System.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Hidden Projects -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/m42qRh1/lms.png" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">LMS - Library Management</h2>
+                    <p class="project-description">A Full Stack Library Management System designed to help students and administrators manage books in a digital library environment. With features for managing book records, issuing and returning books, and tracking inventory, this system simplifies library operations.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/The-Library-Zone_LMS.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/The-Library-Zone_LMS.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- Hidden Projects -->
+            <div class="project-card" data-category="fullstack">
+                <img src="https://i.ibb.co/GM63w8M/Project-3.png" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">E-commerce Store App</h2>
+                    <p class="project-description">Online Shopping Website/Portal is the application which allows the customer to shop virtually and allow customers to buy the items and articles of their desire from the store. It is designed using HTML, CSS, JavaScript, Jquery, AJAX, PHP and MySQL.</p>
+                    <div class="project-tags">
+                        <span class="tag">jquery</span>
+                        <span class="tag">PHP</span>
+                        <span class="tag">MySQL</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">AJAX</span>
+                        <span class="tag">Bootstrap</span>
+                        <span class="tag">SCSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Online_Shopping_Website.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Online_Shopping_Website.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- python1 -->
+            <div class="project-card " data-category="python">
+                <img src="https://i.ibb.co/5YS1xZz/NLP-Model.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">NLP Generation AI Model</h2>
+                    <p class="project-description">It leverages a pre-trained language model (GPT-2) to generate human-like text based on user prompts.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Transformers</span>
+                        <span class="tag">tkinter</span>
+                        <span class="tag">natural-language-processing</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Natural_Language_Generation_AIModel_Python.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Natural_Language_Generation_AIModel_Python.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- python2 -->
+            <div class="project-card " data-category="python">
+                <img src="https://i.ibb.co/mJjs0hy/Flappy.webp" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Flappy Bird Game</h2>
+                    <p class="project-description">An endless Flappy Bird game built using Python and the pygame library. The objective is to control a bird and prevent it from colliding with obstacles like pipes or falling to the ground. Every time the bird successfully passes through the pipes, your score increases by one. The game ends when the bird collides with the pipes or the ground.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">pygame</span>
+                        <span class="tag">python-library</span>
+                        <!-- <span class="tag">Deep Learning</span> -->
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/FlappyBirdGame-Python.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/FlappyBirdGame-Python.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- python3 -->
+            <div class="project-card " data-category="python">
+                <img src="https://i.ibb.co/mzXKMY5/PVT.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Pathfinding Visualize Tool</h2>
+                    <p class="project-description">It allows users to visualize the behavior of two popular pathfinding algorithms: A* and BFS.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">pygame</span>
+                        <span class="tag">python-library</span>
+                        <!-- <span class="tag">Deep Learning</span> -->
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Pathfinding_Visualization_Tool_Python.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Pathfinding_Visualization_Tool_Python.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- python4 -->
+            <div class="project-card " data-category="python">
+                <img src="https://i.ibb.co/7W6QJtF/HDR.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Handwriting Recognition App</h2>
+                    <p class="project-description">A simple AI model that can recognize handwritten digits built using python.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">AI</span>
+                        <span class="tag">NumPy</span>
+                        <span class="tag">Scikit-learn</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Handwritten_Digital_Recognition.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Handwritten_Digital_Recognition.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- other1 -->
+            <div class="project-card " data-category="others">
+                <img src="https://i.ibb.co/45HWPWd/Luxkeys.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">LuxKeys: Keyboard SaaS</h2>
+                    <p class="project-description">LUXKEYS is a modern, responsive e-commerce website for premium mechanical keyboards, built with Next.js and React. This project showcases a feature-rich online store with parallax effects, animations, user authentication, shopping cart functionality, and m</p>
+                    <div class="project-tags">
+                        <span class="tag">Next.js</span>
+                        <span class="tag">TypeScript</span>
+                        <span class="tag">Tailwind CSS</span>
+                        <span class="tag">Lucide React</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Luxkeys_Keyboard_SaaS_Brand.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://luxkeys-keyboard-brand-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- other2 -->
+            <div class="project-card " data-category="others">
+                <img src="https://i.ibb.co/THjSMfj/Project-9.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Rapid Chat - WhatsApp</h2>
+                    <p class="project-description">Initiate WhatsApp chats instantly without saving contacts! A React-based web app that streamlines communication.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">WhatsApp-API</span>
+                        <span class="tag">CSS</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://rapid-chat-whatsapp.vercel.app/" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Rapid-Chat_Whatsapp.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- other3 -->
+            <div class="project-card " data-category="others">
+                <img src="https://i.ibb.co/jTcDZVX/Project-12.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">GitHunt - Github Finder</h2>
+                    <p class="project-description">With Githunt, users can effortlessly search for GitHub profiles by name or username.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/GitHunt_Github_Finder" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://githunt-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- other4 -->
+            <div class="project-card " data-category="others">
+                <img src="https://i.ibb.co/BzZPYYg/Project-10.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">YouTube Clone</h2>
+                    <p class="project-description">This project is a modern YouTube clone built using React, Material UI, and the RapidAPI YouTube Data API. It provides a streamlined interface for browsing and searching YouTube videos and channels.</p>
+                    <div class="project-tags">
+                        <span class="tag">React</span>
+                        <span class="tag">RapidAPI</span>
+                        <span class="tag">Material-UI</span>
+                        <span class="tag">YouTube Data API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://youtube-clone-lakshay.vercel.app/" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Youtube_Clone_React_RapidAPI.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- other5 -->
+            <div class="project-card " data-category="others">
+                <img src="https://i.ibb.co/SfwN21k/Project-11.png" alt="ML Model" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Real-Time Weather App</h2>
+                    <p class="project-description">This is a cross-platform weather application built using modern web technologies, providing users with accurate and up-to-date weather information for locations worldwide.</p>
+                    <div class="project-tags">
+                        <span class="tag">HTML</span>
+                        <span class="tag">CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/React-Weather-App.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://react-weatherapp-lakshay.vercel.app/" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <div class="project-card" data-category="cybersecurity">
+                <img src="https://c8.alamy.com/comp/KPNGK3/manager-touching-intrusion-detection-system-KPNGK3.jpg" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Intrusion Detection System (IDS) Using Python and Scapy </h2>
+                    <p class="project-description">A Python-based Intrusion Detection System (IDS) using Scapy to monitor network traffic for suspicious activity and potential threats. Detect anomalies, block malicious IPs, and log security incidents.</p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Scapy</span>
+                        <span class="tag">Windows Firewall</span>
+                        <span class="tag">;logging-library</span>
+                      
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Intrusion_Detection_System_Python.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Intrusion_Detection_System_Python.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+           
+            <div class="project-card" data-category="cybersecurity">
+                <img src="https://denizhalil.com/wp-content/uploads/2023/12/Network-Analysis-with-Scapy-Powerful-Packet-Processing-in-Python.jpg" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Network Protocol Analyzer Using Python and Scapy </h2>
+                    <p class="project-description">A Python-based Network Protocol Analyzer using Scapy to capture and log network traffic in real-time. Gain insights into network communications for monitoring, analysis, and troubleshooting. </p>
+                    <div class="project-tags">
+                        <span class="tag">Python</span>
+                        <span class="tag">Scapy</span>
+                        <span class="tag">packet-sniffer</span>
+                        <span class="tag">network-analyzer</span>
+                      
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Network_Protocol_Analyzer_Python.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Network_Protocol_Analyzer_Python.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+             <div class="project-card" data-category="cybersecurity">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZJ5VOoTsA66jt_wQ3kpNjPkiGV7wBtz7Zvs8W1MhteQxgE3w3m_9VRITZHr49eKTFfds&usqp=CAU" alt="React Dashboard" class="project-image" />
+                <div class="project-content">
+                    <h2 class="project-title">Exploit Development Framework / Fuzzing Tool </h2>
+                    <p class="project-description">A C-based exploit development framework and fuzzing tool designed to test application robustness and security by generating random payloads and targeting vulnerabilities. Automate vulnerability discovery and improve application resilience! </p>
+                    <div class="project-tags">
+                        <span class="tag">C</span>
+                        <span class="tag">fuzzing</span>
+                        <span class="tag">exploit-development</span>
+                        <span class="tag">fuzzing-tool</span>
+                      
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/LakshayD02/Exploit_Development_Framework_C.git" class="project-link github-link"><i class="fab fa-github"></i> GitHub</a>
+                        <a href="https://github.com/LakshayD02/Exploit_Development_Framework_C.git" class="project-link demo-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                    </div>
+                </div>
+                <div class="view-more-overlay">
+                    <button class="view-more-btn">View More</button>
+                </div>
+            </div>
+            <!-- End inserted projects -->
+        </div>
+    </div>
+
+    <!-- Added full-screen modal for small devices -->
+    <div id="project-modal" class="project-modal">
+        <div class="modal-header">
+            <button id="modal-back-btn" class="modal-back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h3 class="modal-title">Project Details</h3>
+        </div>
+        <div class="modal-content">
+            <!-- Project content will be dynamically inserted here -->
+        </div>
+    </div>
+
+    <!-- Professional footer -->
+    <footer class="footer" role="contentinfo" aria-label="Site footer">
+        <div class="copyright">© <span id="copyright-year"></span> Lakshay Dhoundiyal. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // Dark/Light Theme toggle
+        const toggleSwitch = document.getElementById("theme-toggle")
+        const body = document.body
+
+        toggleSwitch.addEventListener("change", () => {
+            if (toggleSwitch.checked) {
+                body.classList.add("dark-theme")
+                body.classList.remove("light-theme")
+            } else {
+                body.classList.add("light-theme")
+                body.classList.remove("dark-theme")
+            }
+        })
+
+        // Filter functionality
+        const filterButtons = document.querySelectorAll(".filter-btn")
+        const projectCards = document.querySelectorAll(".project-card")
+
+        filterButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                // Remove active class from all buttons
+                filterButtons.forEach((btn) => btn.classList.remove("active"))
+                // Add active class to clicked button
+                button.classList.add("active")
+
+                const filterValue = button.getAttribute("data-filter")
+
+                projectCards.forEach((card) => {
+                    if (filterValue === "all") {
+                        card.classList.remove("hidden")
+                        setTimeout(() => {
+                            card.style.display = "flex"
+                        }, 10)
+                    } else {
+                        const cardCategory = card.getAttribute("data-category")
+                        if (cardCategory === filterValue) {
+                            card.classList.remove("hidden")
+                            setTimeout(() => {
+                                card.style.display = "flex"
+                            }, 10)
+                        } else {
+                            card.classList.add("hidden")
+                            setTimeout(() => {
+                                card.style.display = "none"
+                            }, 300)
+                        }
+                    }
+                })
+            })
+        })
+
+        // Initialize filter on page load
+        document.addEventListener("DOMContentLoaded", () => {
+            // Show all projects initially
+            projectCards.forEach((card) => {
+                card.style.display = "flex"
+            })
+
+            const viewMoreOverlays = document.querySelectorAll(".view-more-overlay")
+            const projectModal = document.getElementById("project-modal")
+            const modalContent = document.querySelector(".modal-content")
+            const modalBackBtn = document.getElementById("modal-back-btn")
+
+            // Close modal function
+            function closeModal() {
+                projectModal.style.display = "none"
+                document.body.style.overflow = "auto"
+           
+            }
+
+            // Back button click handler
+            modalBackBtn.addEventListener("click", closeModal)
+
+            // Close modal when clicking outside content (optional)
+            projectModal.addEventListener("click", (e) => {
+                if (e.target === projectModal) {
+                    closeModal()
+                }
+            })
+
+            viewMoreOverlays.forEach((overlay) => {
+                const viewMoreBtn = overlay.querySelector(".view-more-btn")
+                const projectCard = overlay.parentElement
+
+                viewMoreBtn.addEventListener("click", (e) => {
+                    e.stopPropagation()
+
+                    // Check if we're on small device
+                    if (window.innerWidth <= 600) {
+                        // Clone the project card for modal
+                        const clonedCard = projectCard.cloneNode(true)
+                        clonedCard.classList.add("modal-project-card")
+                        clonedCard.classList.remove("project-card")
+
+                        // Remove the view more overlay from cloned card
+                        const clonedOverlay = clonedCard.querySelector(".view-more-overlay")
+                        if (clonedOverlay) {
+                            clonedOverlay.remove()
+                        }
+
+                        // Clear modal content and add cloned card
+                        modalContent.innerHTML = ""
+                        modalContent.appendChild(clonedCard)
+
+                        // Show modal
+                        projectModal.style.display = "flex"
+                        document.body.style.overflow = "hidden"
+                    } else {
+                        if (projectCard.classList.contains("expanded")) {
+                            projectCard.classList.remove("expanded")
+                            viewMoreBtn.textContent = "View More"
+                            // Smooth scroll to top of card when collapsing
+                            setTimeout(() => {
+                                projectCard.scrollIntoView({
+                                    behavior: "smooth",
+                                    block: "nearest",
+                                })
+                            }, 100)
+                        } else {
+                            projectCard.classList.add("expanded")
+                            viewMoreBtn.textContent = "View Less"
+                        }
+                    }
+                })
+            })
+
+            function handleResize() {
+                if (window.innerWidth > 600) {
+                    closeModal()
+                }
+            }
+
+            window.addEventListener("resize", handleResize)
+            handleResize() // Call once on load
+
+            // --- Footer: set current year dynamically ---
+            const yearEl = document.getElementById('copyright-year')
+            if (yearEl) {
+                yearEl.textContent = new Date().getFullYear()
+            }
+        })
+    </script>
+</body>
+</html>
